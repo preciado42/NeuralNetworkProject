@@ -40,6 +40,10 @@ public class NeuralNetworkProject {
         Network network = new Network(1, 2, 1, 3, array);
         System.out.println(network.answer());
         System.out.println(network.toString());
+        
+        //used for testing the image importer classes.
+        ImageLoader il = new ImageLoader();
+        il.run();
     }
     
 }
