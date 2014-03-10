@@ -33,7 +33,7 @@ public class Network {
 
     private void initalizeLayers(ArrayList<Double> inputs) 
     {
-        //creat all the neurons in the network
+        //create all the neurons in the network
         for(int i = 0; i < inputNeurons; i++)
         {
             levelsList.get(0).add(new Neuron());

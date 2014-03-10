@@ -31,7 +31,7 @@ public class NeuralNetworkProject {
         ArrayList<Double> array = new ArrayList();
         Random rand = new Random();
         //four inputs for testing
-        System.out.println("Inputs");
+        //System.out.println("Inputs");
 //        for(int i = 0; i < 5; i++)
 //        {
 //            double dub = rand.nextInt(2) + 0.0;
@@ -44,8 +44,8 @@ public class NeuralNetworkProject {
         System.out.println("");
         //#input neurons, #hidden layers, #output neurons, #hidden neurons per layer, input array
         Network network = new Network(1, 2, 1, 3, array);
-        System.out.println(network.answer());
-        System.out.println(network.toString());
+        //System.out.println("The Network's Answer is: " + network.answer());
+        //System.out.println(network.toString());
     }
 
      /**
