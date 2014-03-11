@@ -17,7 +17,7 @@ public class Network {
     private ArrayList<ArrayList<Neuron>> levelsList;
     private final int inputNeurons, hiddenLayers, outputNeurons, hiddenNeurons;
     
-    public Network(int inputNeurons, int hiddenLayers, int outputNeurons, int hiddenNeurons, ArrayList<Double> inputs)
+    public Network(int inputNeurons, int hiddenLayers, int outputNeurons, int hiddenNeurons)
     {
         this.inputNeurons = inputNeurons;
         this.hiddenLayers = hiddenLayers;
@@ -28,10 +28,22 @@ public class Network {
         {
             levelsList.add(new ArrayList<Neuron>());
         }
-        initalizeLayers(inputs);
+        initalizeLayers();
     }
 
-    private void initalizeLayers(ArrayList<Double> inputs) 
+    public void feed(ArrayList<Double> inputs)
+    {
+        //populate input neurons with new inputs.
+        for(int j = 0; j < levelsList.get(0).size(); j++)
+        {
+            for(int i = 0; i < inputs.size(); i++)
+            {
+                levelsList.get(0).get(j).insertInput(inputs.get(i));
+            }
+        }
+    }
+
+    private void initalizeLayers()
     {
         //create all the neurons in the network
         for(int i = 0; i < inputNeurons; i++)
@@ -49,14 +61,10 @@ public class Network {
         {
             levelsList.get(levelsList.size()-1).add(new Neuron());
         }
-        
-        //populate input neurons
+
+        //assign weights to output neurons for input neurons
         for(int j = 0; j < levelsList.get(0).size(); j++)
         {
-            for(int i = 0; i < inputs.size(); i++)
-            {
-                levelsList.get(0).get(j).insertInput(inputs.get(i));
-            }
             for(int i = 0; i < levelsList.get(1).size(); i ++)
             {
                 levelsList.get(0).get(j).populateOutput(levelsList.get(1).get(i), Math.random());
