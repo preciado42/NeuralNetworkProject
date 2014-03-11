@@ -23,10 +23,19 @@ public class NeuralNetworkProject {
     }
     
     public void run(){
-        networkCreationTest();
-        testPairLoadTest();
+        //networkCreationTest();
+        networkFirstTest();
     }
 
+    public void networkFirstTest(){
+       // Network network = new Network();
+        testPairLoadTest();
+        Network network = new Network(1, 2, 1, 3, this.testPairs.get(0).getDataArrayList());
+        System.out.println("Answer provided by Network: "+network.answer());
+        System.out.println("Correct Answer: "+this.testPairs.get(0).getAnswer());
+        System.out.println(network.toString());
+    }
+    
     private void networkCreationTest() {
         ArrayList<Double> array = new ArrayList();
         Random rand = new Random();
@@ -86,7 +95,7 @@ public class NeuralNetworkProject {
         this.testPairs = il.createTestPairs();
         for (int i = 0; i < testPairs.size(); i++) {
             TestPair temp = testPairs.get(i);
-            int[] dat = temp.getImageData();
+            double[] dat = temp.getDataAsDouble();
             for (int j = 0; j < dat.length; j++) {
                 System.out.print(dat[j]+" ");
                 if((j+1)%8==0){

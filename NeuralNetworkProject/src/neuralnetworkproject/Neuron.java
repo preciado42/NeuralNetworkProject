@@ -15,8 +15,8 @@ import java.util.HashMap;
  */
 public class Neuron {
 
-    private HashMap<Neuron,Double> outputNeurons;
-    private ArrayList<Double> inputs;
+    private HashMap<Neuron,Double> outputNeurons;  //connected neurons and their weights
+    private ArrayList<Double> inputs;              //inputs to the neuron
     private int output;
     
     public Neuron()

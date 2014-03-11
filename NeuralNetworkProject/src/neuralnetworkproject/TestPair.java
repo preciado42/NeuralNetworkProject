@@ -4,6 +4,8 @@
 
 package neuralnetworkproject;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Angel Preciado
@@ -28,5 +30,19 @@ public class TestPair {
     }
     public void setImageData(int[] imgDat){
         this.imageData = imgDat;
+    }
+    public ArrayList<Double> getDataArrayList(){
+        ArrayList<Double> dat = new ArrayList<Double>();
+        for (int i = 0; i < this.imageData.length; i++) {
+            dat.add(new Double(this.imageData[i]));
+        }
+        return dat;
+    }
+    public double[] getDataAsDouble(){
+        double[] dat = new double[this.imageData.length];
+        for (int i = 0; i < this.imageData.length; i++) {
+            dat[i] = this.imageData[i];
+        }
+        return dat;
     }
 }
