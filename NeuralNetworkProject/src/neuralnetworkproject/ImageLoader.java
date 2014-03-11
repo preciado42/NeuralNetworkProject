@@ -60,7 +60,7 @@ public class ImageLoader extends PApplet {
 
     public ArrayList<TestPair> createTestPairs(){
         ArrayList<TestPair> testData = new ArrayList<TestPair>();
-        File dataDir = new File("src\\images");
+        File dataDir = new File("NeuralNetworkProject\\src\\images");
         File[] list = dataDir.listFiles();
         for (int i = 0; i < list.length; i++) {
             //load imge

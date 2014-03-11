@@ -15,9 +15,10 @@ import java.util.HashMap;
  */
 public class Neuron {
 
-    private HashMap<Neuron,Double> outputNeurons;  //connected neurons and their weights
-    private ArrayList<Double> inputs;              //inputs to the neuron
-    private int output;
+    private HashMap<Neuron,Double> outputNeurons;
+    private ArrayList<Double> inputs;
+    private double output;
+    private double bias;
     
     public Neuron()
     {
@@ -33,6 +34,11 @@ public class Neuron {
     public boolean insertInput(Double input)
     {
         return inputs.add(input);
+    }
+
+    public void setBias(Double dub)
+    {
+        bias = dub;
     }
     
     public boolean pushOut()
@@ -52,7 +58,7 @@ public class Neuron {
     public void activate()
     {
         //implement activation function here, could be many different kinds
-        double sum = 0.0;
+        /*double sum = 0.0;
         for(int i = 0; i < inputs.size(); i++)
         {
             sum = sum + inputs.get(i);
@@ -66,11 +72,19 @@ public class Neuron {
         {
             output = 0;
         }
+        pushOut();*/
+        double sum = 0.0;
+        for(int i = 0; i < inputs.size(); i++)
+        {
+            sum = sum + inputs.get(i);
+        }
+        sum = sum + bias;
+        output = (1.0/(1.0 + Math.pow(Math.E,sum)));
         pushOut();
     }
     
     //should only be called to get the answer from output neurons
-    public int output()
+    public double output()
     {
         activate();
         return output;
