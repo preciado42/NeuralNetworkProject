@@ -7,39 +7,42 @@ package neuralnetworkproject;
 import java.util.ArrayList;
 
 /**
- *
  * @author Angel Preciado
  */
 public class TestPair {
     private int[] imageData;
     private boolean answer;
-    
-    public TestPair(int[] imgData, boolean ans){
+
+    public TestPair(int[] imgData, boolean ans) {
         this.imageData = imgData;
         this.answer = ans;
     }
-    
-    public boolean getAnswer(){
+
+    public boolean getAnswer() {
         return this.answer;
     }
-    public int[] getImageData(){
+
+    public int[] getImageData() {
         return this.imageData;
     }
-    public void setAnswer(boolean ans){
+
+    public void setAnswer(boolean ans) {
         this.answer = ans;
     }
-    public void setImageData(int[] imgDat){
+
+    public void setImageData(int[] imgDat) {
         this.imageData = imgDat;
     }
 
-    public ArrayList<Integer> getDataArrayList(){
+    public ArrayList<Integer> getDataArrayList() {
         ArrayList<Integer> dat = new ArrayList<Integer>();
         for (int i = 0; i < this.imageData.length; i++) {
             dat.add(new Integer(this.imageData[i]));
         }
         return dat;
     }
-    public double[] getDataAsDouble(){
+
+    public double[] getDataAsDouble() {
         double[] dat = new double[this.imageData.length];
         for (int i = 0; i < this.imageData.length; i++) {
             dat[i] = this.imageData[i];

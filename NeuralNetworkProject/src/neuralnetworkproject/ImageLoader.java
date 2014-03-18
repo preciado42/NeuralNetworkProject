@@ -5,13 +5,13 @@
  */
 package neuralnetworkproject;
 
-import java.io.File;
-import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.io.File;
+import java.util.ArrayList;
+
 /**
- *
  * @author Alex
  */
 public class ImageLoader extends PApplet {
@@ -40,7 +40,7 @@ public class ImageLoader extends PApplet {
         int[][] imageData = new int[dataNum][dataSize];
         File dataDir = new File("src\\images");
         File[] list = dataDir.listFiles();
-        System.out.println("size of list:" +list.length);
+        System.out.println("size of list:" + list.length);
         for (int i = 0; i < list.length; i++) {
             img = loadImage(list[i].getAbsolutePath());
             ImageProcessor ip = new ImageProcessor(img);
@@ -58,7 +58,7 @@ public class ImageLoader extends PApplet {
         return imageData;
     }
 
-    public ArrayList<TestPair> createTestPairs(){
+    public ArrayList<TestPair> createTestPairs() {
         ArrayList<TestPair> testData = new ArrayList<TestPair>();
         File dataDir = new File("NeuralNetworkProject\\src\\images");
         File[] list = dataDir.listFiles();
@@ -69,13 +69,13 @@ public class ImageLoader extends PApplet {
             int[] ar = ip.process();
             //get answer from file name
             boolean ans = true;
-            if(list[i].getName().contains("not")){
+            if (list[i].getName().contains("not")) {
                 ans = false;
             }
             //add test pair to array list
-            testData.add(new TestPair(ar,ans));
+            testData.add(new TestPair(ar, ans));
         }
         return testData;
     }
-    
+
 }

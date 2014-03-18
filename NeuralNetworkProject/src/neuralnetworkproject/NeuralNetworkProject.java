@@ -8,43 +8,41 @@
 package neuralnetworkproject;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
- *
  * @author Angel Preciado, Colby Sinnock, Alex Mohr
  */
 public class NeuralNetworkProject {
 
     ArrayList<TestPair> testPairs;
-    
-    public NeuralNetworkProject(){
+
+    public NeuralNetworkProject() {
         testPairs = new ArrayList<TestPair>();
     }
-    
-    public void run(){
+
+    public void run() {
         //networkCreationTest();
         networkFirstTest();
     }
 
-    public void networkFirstTest(){
-       // Network network = new Network();
+    public void networkFirstTest() {
+        // Network network = new Network();
         testPairLoadTest();
         Network network = new Network(1, 2, 1, 3);
         network.feed(this.testPairs.get(0).getDataArrayList(), this.testPairs.get(0).getAnswer());
-        System.out.println("Answer provided by Network: "+network.answer());
-        System.out.println("Correct Answer: "+this.testPairs.get(0).getAnswer());
+        System.out.println("Answer provided by Network: " + network.answer());
+        System.out.println("Correct Answer: " + this.testPairs.get(0).getAnswer());
         network.calculatetError();
         network.backProp();
         //next test;
     }
-    
+
     private void networkCreationTest() {
         //#input neurons, #hidden layers, #output neurons, #hidden neurons per layer
         Network network = new Network(1, 2, 1, 3);
     }
 
-     /**
+    /**
      * Code used for loading images begins here, all for testing still.
      */
     private void loadImagesTest() {
@@ -68,7 +66,7 @@ public class NeuralNetworkProject {
             System.out.println("\n-------------------\n");
         }*/
     }
-    
+
     /**
      * @param args the command line arguments
      */

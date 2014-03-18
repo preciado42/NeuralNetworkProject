@@ -9,7 +9,6 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
- *
  * @author Alex
  */
 public class ImageProcessor extends PApplet {
@@ -17,10 +16,10 @@ public class ImageProcessor extends PApplet {
     int black = color(0, 0, 0);
     int white = color(255, 255, 255);
 
-    public ImageProcessor(PImage img){
+    public ImageProcessor(PImage img) {
         this.image = img;
     }
-    
+
     public void imageProcessor() {
         image = createImage(8, 8, RGB);
         image.loadPixels();

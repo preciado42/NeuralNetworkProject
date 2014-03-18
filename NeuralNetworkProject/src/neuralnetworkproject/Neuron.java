@@ -9,7 +9,6 @@ package neuralnetworkproject;
 import java.util.ArrayList;
 
 /**
- *
  * @author Colby
  */
 public class Neuron {
@@ -23,143 +22,115 @@ public class Neuron {
     private double signalError;
     private double thresholdDiff;
     private double threshold;
-    
-    public Neuron()
-    {
+
+    public Neuron() {
         outputNeurons = new ArrayList<Neuron>();
         inputs = new ArrayList<Integer>();
         weights = new ArrayList<Double>();
         weightDiff = new ArrayList<Double>();
     }
-    
-    public void populateOutput(Neuron neuron)
-    {
+
+    public void populateOutput(Neuron neuron) {
         outputNeurons.add(neuron);
     }
 
-    public double getThreshold()
-    {
+    public double getThreshold() {
         return threshold;
     }
 
-    public void setThreshold(double thresh)
-    {
+    public void setThreshold(double thresh) {
         threshold = thresh;
     }
 
-    public void calculateSignalError(Integer expectedOutput)
-    {
+    public void calculateSignalError(Integer expectedOutput) {
         signalError = (expectedOutput - output) * output * (1 - output);
     }
 
-    public void initalizeWeights()
-    {
-        for(int i = 0; i < inputs.size(); i++)
-        {
+    public void initalizeWeights() {
+        for (int i = 0; i < inputs.size(); i++) {
             weights.add(Math.random());
         }
     }
 
-    public void setWeightDiff(int pos, double diff)
-    {
+    public void setWeightDiff(int pos, double diff) {
         weightDiff.set(pos, diff);
     }
 
-    public void setWeight(int pos, double wei)
-    {
+    public void setWeight(int pos, double wei) {
         weights.set(pos, wei);
     }
 
-    public double getWeightDiff(Integer pos)
-    {
+    public double getWeightDiff(Integer pos) {
         return weightDiff.get(pos);
     }
 
-    public double getWeight(Integer pos)
-    {
+    public double getWeight(Integer pos) {
         return weights.get(pos);
     }
 
-    public double getError()
-    {
+    public double getError() {
         return signalError;
     }
 
-    public void setSignalError(double sig)
-    {
+    public void setSignalError(double sig) {
         signalError = sig;
     }
-    
-    public boolean insertInput(Integer input)
-    {
+
+    public boolean insertInput(Integer input) {
         return inputs.add(input);
     }
 
-    public void setBias(Double dub)
-    {
+    public void setBias(Double dub) {
         bias = dub;
     }
-    
-    public boolean pushOut()
-    {
+
+    public boolean pushOut() {
         boolean allTrue = true;
-        
-        for(Neuron neuron : outputNeurons)
-        {
-            if(!neuron.insertInput(output))
-            {
+
+        for (Neuron neuron : outputNeurons) {
+            if (!neuron.insertInput(output)) {
                 allTrue = false;
             }
         }
         return allTrue;
     }
 
-    public void setThresholdDiff(double diff)
-    {
+    public void setThresholdDiff(double diff) {
         thresholdDiff = diff;
     }
 
-    public double getThresholdDiff()
-    {
+    public double getThresholdDiff() {
         return thresholdDiff;
     }
-    
-    public void activate()
-    {
+
+    public void activate() {
         //implement activation function here, could be many different kinds
         double sum = 0.0;
         double temp;
-        for(int i = 0; i < inputs.size(); i++)
-        {
+        for (int i = 0; i < inputs.size(); i++) {
             sum = sum + inputs.get(i);
         }
         sum = sum + bias;
-        temp = (1.0/(1.0 + Math.pow(Math.E,sum)));
-        if(temp >= .5)
-        {
+        temp = (1.0 / (1.0 + Math.pow(Math.E, sum)));
+        if (temp >= .5) {
             output = 1;
-        }
-        else
-        {
+        } else {
             output = 0;
         }
         pushOut();
     }
-    
+
     //should only be called to get the answer from output neurons
-    public double output()
-    {
+    public double output() {
         activate();
         return output;
     }
-    
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder bldr = new StringBuilder();
         bldr.append("Inputs:\n");
-        for(int i =0 ; i < inputs.size(); i++)
-        {
+        for (int i = 0; i < inputs.size(); i++) {
             bldr.append(inputs.get(i));
             bldr.append("\n");
         }
