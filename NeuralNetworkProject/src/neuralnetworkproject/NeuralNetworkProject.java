@@ -14,7 +14,9 @@ import java.util.ArrayList;
  */
 public class NeuralNetworkProject {
 
+    Network network;
     ArrayList<TestPair> testPairs;
+    
 
     public NeuralNetworkProject() {
         testPairs = new ArrayList<TestPair>();
@@ -22,14 +24,16 @@ public class NeuralNetworkProject {
 
     public void run() {
         //networkCreationTest();
-        networkFirstTest();
+        //networkFirstTest();
+        this.trainNetworkSquare();
     }
 
     public void networkFirstTest() {
         // Network network = new Network();
-        testPairLoadTest();
-        Network network = new Network(1, 2, 1, 3);
+        testPairLoad("src\\images");
+        network = new Network(1, 2, 1, 3);
         network.feed(this.testPairs.get(0).getDataArrayList(), this.testPairs.get(0).getAnswer());
+        network.answer();
         System.out.println("Answer provided by Network: " + network.answer());
         System.out.println("Correct Answer: " + this.testPairs.get(0).getAnswer());
         network.calculatetError();
@@ -75,9 +79,9 @@ public class NeuralNetworkProject {
         nnp.run();
     }
 
-    private void testPairLoadTest() {
+    private void testPairLoad(String path) {
         ImageLoader il = new ImageLoader();
-        this.testPairs = il.createTestPairs();
+        this.testPairs = il.createTestPairs(path);
         /*for (int i = 0; i < testPairs.size(); i++) {
             TestPair temp = testPairs.get(i);
             double[] dat = temp.getDataAsDouble();
@@ -92,4 +96,40 @@ public class NeuralNetworkProject {
         }*/
     }
 
+    /**
+     * This method will train the network using square2.png which is the image of
+     * a big square int he middle of an 8x8 grid.  This will be its only true answer
+     * and a random assortment of other images will be tested against this one image.
+     */
+    public void trainNetworkSquare(){
+        
+        //begin training of network
+        int sessions = 150; //number of training sessions to run
+        this.network = this.setUpNetwork(); //set up layers, random weights, etc
+        this.testPairLoad("src\\training\\simpleSquare");  //load up all test cases, we know which pngs in this list are not squares
+        for (int i = 0; i < sessions; i++) {
+            //test against a set number of pngs that ARENT squares
+            for (int j = 0; j < this.testPairs.size(); j++) {
+                this.network.feed(this.testPairs.get(j).getDataArrayList(), this.testPairs.get(j).getAnswer());
+                //check if network got the right answer
+                if(this.network.answer() == 1 && !this.testPairs.get(j).getAnswer()){
+                    //network guessed true, answer is false
+                    this.network.calculatetError();
+                    this.network.backProp();
+                } else if(this.network.answer() == 0 && this.testPairs.get(j).getAnswer()){
+                    //network guessed false, answer is true
+                    this.network.calculatetError();
+                    this.network.backProp();
+                }
+            }
+        }
+        
+    }
+
+    private Network setUpNetwork() {
+        System.out.println("Network is Set up");
+        return null;
+    }
+    
+    
 }

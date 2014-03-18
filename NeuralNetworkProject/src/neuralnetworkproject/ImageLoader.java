@@ -58,9 +58,9 @@ public class ImageLoader extends PApplet {
         return imageData;
     }
 
-    public ArrayList<TestPair> createTestPairs() {
+    public ArrayList<TestPair> createTestPairs(String path) {
         ArrayList<TestPair> testData = new ArrayList<TestPair>();
-        File dataDir = new File("NeuralNetworkProject\\src\\images");
+        File dataDir = new File(path);
         File[] list = dataDir.listFiles();
         for (int i = 0; i < list.length; i++) {
             //load imge
@@ -74,6 +74,30 @@ public class ImageLoader extends PApplet {
             }
             //add test pair to array list
             testData.add(new TestPair(ar, ans));
+        }
+        return testData;
+    }
+
+    public TestPair loadSingleTestPair(String file) {
+        TestPair testData = null;
+        File dataDir = new File("src\\images");
+        File[] list = dataDir.listFiles();
+        boolean ans = false;
+        int[] arr = new int[0];
+        for (int i = 0; i < list.length; i++) {
+            if (list[i].getName().equalsIgnoreCase(file)) {
+                //load imge
+                img = loadImage(list[i].getAbsolutePath());
+                ImageProcessor ip = new ImageProcessor(img);
+                arr = ip.process();
+                //get answer from file name
+                ans = true;
+                if (list[i].getName().contains("not")) {
+                    ans = false;
+                }
+            }
+            //add test pair to array list
+            testData = new TestPair(arr,ans);
         }
         return testData;
     }

@@ -47,6 +47,7 @@ public class Neuron {
     }
 
     public void initalizeWeights() {
+        System.out.println("input size:"+inputs.size());
         for (int i = 0; i < inputs.size(); i++) {
             weights.add(Math.random());
         }
