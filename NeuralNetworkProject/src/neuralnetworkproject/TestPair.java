@@ -31,10 +31,11 @@ public class TestPair {
     public void setImageData(int[] imgDat){
         this.imageData = imgDat;
     }
-    public ArrayList<Double> getDataArrayList(){
-        ArrayList<Double> dat = new ArrayList<Double>();
+
+    public ArrayList<Integer> getDataArrayList(){
+        ArrayList<Integer> dat = new ArrayList<Integer>();
         for (int i = 0; i < this.imageData.length; i++) {
-            dat.add(new Double(this.imageData[i]));
+            dat.add(new Integer(this.imageData[i]));
         }
         return dat;
     }

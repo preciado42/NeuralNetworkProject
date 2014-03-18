@@ -31,10 +31,12 @@ public class NeuralNetworkProject {
        // Network network = new Network();
         testPairLoadTest();
         Network network = new Network(1, 2, 1, 3);
-        network.feed(this.testPairs.get(0).getDataArrayList());
+        network.feed(this.testPairs.get(0).getDataArrayList(), this.testPairs.get(0).getAnswer());
         System.out.println("Answer provided by Network: "+network.answer());
         System.out.println("Correct Answer: "+this.testPairs.get(0).getAnswer());
-        //System.out.println(network.toString());
+        network.calculatetError();
+        network.backProp();
+        //next test;
     }
     
     private void networkCreationTest() {

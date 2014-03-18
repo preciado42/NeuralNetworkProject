@@ -10,7 +10,7 @@ import processing.core.PImage;
 
 /**
  *
- * @author Room
+ * @author Alex
  */
 public class ImageProcessor extends PApplet {
     PImage image;

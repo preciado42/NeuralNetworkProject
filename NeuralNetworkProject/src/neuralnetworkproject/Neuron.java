@@ -7,31 +7,90 @@
 package neuralnetworkproject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
- * @author Vikish
+ * @author Colby
  */
 public class Neuron {
 
-    private HashMap<Neuron,Double> outputNeurons;
-    private ArrayList<Double> inputs;
-    private double output;
+    private ArrayList<Neuron> outputNeurons;
+    private ArrayList<Integer> inputs;
+    private ArrayList<Double> weights;
+    private ArrayList<Double> weightDiff;
+    private int output;
     private double bias;
+    private double signalError;
+    private double thresholdDiff;
+    private double threshold;
     
     public Neuron()
     {
-        outputNeurons = new HashMap();
-        inputs = new ArrayList();
+        outputNeurons = new ArrayList<Neuron>();
+        inputs = new ArrayList<Integer>();
+        weights = new ArrayList<Double>();
+        weightDiff = new ArrayList<Double>();
     }
     
-    public void populateOutput(Neuron neuron, Double weight)
+    public void populateOutput(Neuron neuron)
     {
-        outputNeurons.put(neuron, weight);
+        outputNeurons.add(neuron);
+    }
+
+    public double getThreshold()
+    {
+        return threshold;
+    }
+
+    public void setThreshold(double thresh)
+    {
+        threshold = thresh;
+    }
+
+    public void calculateSignalError(Integer expectedOutput)
+    {
+        signalError = (expectedOutput - output) * output * (1 - output);
+    }
+
+    public void initalizeWeights()
+    {
+        for(int i = 0; i < inputs.size(); i++)
+        {
+            weights.add(Math.random());
+        }
+    }
+
+    public void setWeightDiff(int pos, double diff)
+    {
+        weightDiff.set(pos, diff);
+    }
+
+    public void setWeight(int pos, double wei)
+    {
+        weights.set(pos, wei);
+    }
+
+    public double getWeightDiff(Integer pos)
+    {
+        return weightDiff.get(pos);
+    }
+
+    public double getWeight(Integer pos)
+    {
+        return weights.get(pos);
+    }
+
+    public double getError()
+    {
+        return signalError;
+    }
+
+    public void setSignalError(double sig)
+    {
+        signalError = sig;
     }
     
-    public boolean insertInput(Double input)
+    public boolean insertInput(Integer input)
     {
         return inputs.add(input);
     }
@@ -45,26 +104,38 @@ public class Neuron {
     {
         boolean allTrue = true;
         
-        for(Neuron neuron : outputNeurons.keySet())
+        for(Neuron neuron : outputNeurons)
         {
-            if(!neuron.insertInput(outputNeurons.get(neuron) * output))
+            if(!neuron.insertInput(output))
             {
                 allTrue = false;
             }
         }
         return allTrue;
     }
+
+    public void setThresholdDiff(double diff)
+    {
+        thresholdDiff = diff;
+    }
+
+    public double getThresholdDiff()
+    {
+        return thresholdDiff;
+    }
     
     public void activate()
     {
         //implement activation function here, could be many different kinds
-        /*double sum = 0.0;
+        double sum = 0.0;
+        double temp;
         for(int i = 0; i < inputs.size(); i++)
         {
             sum = sum + inputs.get(i);
         }
-        sum = sum / inputs.size();
-        if(sum >= 0.5)
+        sum = sum + bias;
+        temp = (1.0/(1.0 + Math.pow(Math.E,sum)));
+        if(temp >= .5)
         {
             output = 1;
         }
@@ -72,14 +143,6 @@ public class Neuron {
         {
             output = 0;
         }
-        pushOut();*/
-        double sum = 0.0;
-        for(int i = 0; i < inputs.size(); i++)
-        {
-            sum = sum + inputs.get(i);
-        }
-        sum = sum + bias;
-        output = (1.0/(1.0 + Math.pow(Math.E,sum)));
         pushOut();
     }
     

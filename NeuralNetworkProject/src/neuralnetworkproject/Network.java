@@ -10,12 +10,14 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Vikish
+ * @author Colby
  */
 public class Network {
     
     private ArrayList<ArrayList<Neuron>> levelsList;
+    private int expectedOutput;
     private final int inputNeurons, hiddenLayers, outputNeurons, hiddenNeurons;
+    private double learningRate, momentum;
     
     public Network(int inputNeurons, int hiddenLayers, int outputNeurons, int hiddenNeurons)
     {
@@ -23,6 +25,8 @@ public class Network {
         this.hiddenLayers = hiddenLayers;
         this.outputNeurons = outputNeurons;
         this.hiddenNeurons = hiddenNeurons;
+        this.learningRate = 0.25;
+        this.momentum = 0.02;
         levelsList = new ArrayList();
         for(int i = 0; i < hiddenLayers+2; i++)
         {
@@ -31,8 +35,16 @@ public class Network {
         initalizeLayers();
     }
 
-    public void feed(ArrayList<Double> inputs)
+    public void feed(ArrayList<Integer> inputs, boolean eoutput)
     {
+        if(eoutput)
+        {
+            expectedOutput = 1;
+        }
+        else
+        {
+            expectedOutput = 0;
+        }
         //populate input neurons with new inputs.
         for(int j = 0; j < levelsList.get(0).size(); j++)
         {
@@ -40,6 +52,63 @@ public class Network {
             {
                 levelsList.get(0).get(j).insertInput(inputs.get(i));
             }
+        }
+    }
+
+    public void calculatetError()
+    {
+        //Calculate error for each output node
+        for(int i = 0; i < levelsList.get(levelsList.size() - 1).size(); i++)
+        {
+            levelsList.get(levelsList.size() - 1).get(i).calculateSignalError(expectedOutput);
+        }
+
+        //Calculate error for each hidden layer node
+        for(int i = levelsList.size() - 2; i > 0; i--)
+        {
+            for(int j = 0; j < levelsList.get(i).size(); j++)
+            {
+                double sum = 0.0;
+
+                for(int k = 0; k < levelsList.get(i+1).size(); k++)
+                {
+                    sum = sum + levelsList.get(i+1).get(k).getWeight(j) * levelsList.get(i+1).get(k).getError();
+                }
+
+                levelsList.get(i).get(j).setSignalError(levelsList.get(i).get(j).getError() * (1 - levelsList.get(i).get(j).getError()) * sum);
+            }
+        }
+    }
+
+    public void backProp()
+    {
+        //Update weights
+        for(int i = levelsList.size()-1; i > 0; i--)
+        {
+            for(int j = 0; j < levelsList.get(i).size(); j++)
+            {
+                Neuron current = levelsList.get(i).get(j);
+
+                current.setThresholdDiff((current.getThresholdDiff()
+                        * momentum + current.getError()) * learningRate);
+
+
+                current.setThreshold(current.getThreshold() + current.getThresholdDiff());
+
+                //update weights
+                for(int k = 0; k < levelsList.get(i-1).size(); k++)
+                {
+                    Neuron guyBefore = levelsList.get(i-1).get(k);
+
+                    //calculate weight different from j to k
+                    current.setWeightDiff(k, learningRate * (current.getError()*guyBefore.output() +
+                        momentum*current.getWeightDiff(k)));
+
+                    //update weight from j to k
+                    current.setWeight(k, current.getWeight(k) + current.getWeightDiff(k));
+                }
+             }
+
         }
     }
 
@@ -67,7 +136,8 @@ public class Network {
         {
             for(int i = 0; i < levelsList.get(1).size(); i ++)
             {
-                levelsList.get(0).get(j).populateOutput(levelsList.get(1).get(i), Math.random());
+                levelsList.get(0).get(j).populateOutput(levelsList.get(1).get(i));
+                levelsList.get(0).get(j).initalizeWeights();
             }
         }
         
@@ -78,8 +148,9 @@ public class Network {
             {
                 for(int k = 0; k < levelsList.get(i+1).size(); k++)
                 {
-                    levelsList.get(i).get(j).populateOutput(levelsList.get(i+1).get(k), Math.random());
+                    levelsList.get(i).get(j).populateOutput(levelsList.get(i+1).get(k));
                 }
+                levelsList.get(i).get(j).initalizeWeights();
             }
         }
         
