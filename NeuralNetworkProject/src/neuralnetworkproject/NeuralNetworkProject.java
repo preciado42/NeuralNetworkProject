@@ -30,13 +30,13 @@ public class NeuralNetworkProject {
 
     public void networkFirstTest() {
         // Network network = new Network();
-        testPairLoad("src\\images");
+        testPairLoad("\\NeuralNetworkProject\\src\\images");
         network = new Network(1, 2, 1, 3);
         network.feed(this.testPairs.get(0).getDataArrayList(), this.testPairs.get(0).getAnswer());
         network.answer();
         System.out.println("Answer provided by Network: " + network.answer());
         System.out.println("Correct Answer: " + this.testPairs.get(0).getAnswer());
-        network.calculatetError();
+        network.calculateError();
         network.backProp();
         //next test;
     }
@@ -106,29 +106,33 @@ public class NeuralNetworkProject {
         //begin training of network
         int sessions = 150; //number of training sessions to run
         this.network = this.setUpNetwork(); //set up layers, random weights, etc
-        this.testPairLoad("src\\training\\simpleSquare");  //load up all test cases, we know which pngs in this list are not squares
+        this.testPairLoad("NeuralNetworkProject\\src\\training\\simpleSquare");  //load up all test cases, we know which pngs in this list are not squares
         for (int i = 0; i < sessions; i++) {
             //test against a set number of pngs that ARENT squares
             for (int j = 0; j < this.testPairs.size(); j++) {
                 this.network.feed(this.testPairs.get(j).getDataArrayList(), this.testPairs.get(j).getAnswer());
                 //check if network got the right answer
-                if(this.network.answer() == 1 && !this.testPairs.get(j).getAnswer()){
+                int ans = network.answer();
+                if(ans == 1 && !this.testPairs.get(j).getAnswer()){
                     //network guessed true, answer is false
-                    this.network.calculatetError();
+                    System.out.println("Network answered " + ans);
+                    System.out.println("Correct answer was " + this.testPairs.get(j).getAnswer() + "\n");
+                    this.network.calculateError();
                     this.network.backProp();
-                } else if(this.network.answer() == 0 && this.testPairs.get(j).getAnswer()){
+                } else if(ans == 0 && this.testPairs.get(j).getAnswer()){
                     //network guessed false, answer is true
-                    this.network.calculatetError();
+                    System.out.println("Network answered " + ans);
+                    System.out.println("Correct answer was " + this.testPairs.get(j).getAnswer() + "\n");
+                    this.network.calculateError();
                     this.network.backProp();
                 }
             }
         }
-        
     }
 
     private Network setUpNetwork() {
         System.out.println("Network is Set up");
-        return null;
+        return new Network(1,2,1,3);
     }
     
     

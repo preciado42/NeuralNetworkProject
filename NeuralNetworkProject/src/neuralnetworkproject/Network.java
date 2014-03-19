@@ -39,6 +39,7 @@ public class Network {
         } else {
             expectedOutput = 0;
         }
+        cleanNeurons();
         //populate input neurons with new inputs.
         for (int j = 0; j < levelsList.get(0).size(); j++) {
             for (int i = 0; i < inputs.size(); i++) {
@@ -47,7 +48,18 @@ public class Network {
         }
     }
 
-    public void calculatetError() {
+    public void cleanNeurons()
+    {
+        for(int i = 0; i < levelsList.size(); i++)
+        {
+            for(int j = 0; j < levelsList.get(i).size(); j++)
+            {
+                levelsList.get(i).get(j).clearInputs();
+            }
+        }
+    }
+
+    public void calculateError() {
         //Calculate error for each output node
         for (int i = 0; i < levelsList.get(levelsList.size() - 1).size(); i++) {
             levelsList.get(levelsList.size() - 1).get(i).calculateSignalError(expectedOutput);
@@ -134,7 +146,7 @@ public class Network {
             }
         }
 
-        //populate output layer neurons
+        //populate output layer neurons weights
         for(int i = 0; i < outputNeurons; i++)
         {
             levelsList.get(levelsList.size()-1).get(i).initalizeWeights();
@@ -142,12 +154,25 @@ public class Network {
 
     }
 
+    public void fireNeurons()
+    {
+        for(int i = 0; i < levelsList.size(); i++)
+        {
+            for(int j = 0; j < levelsList.get(i).size(); j++)
+            {
+                levelsList.get(i).get(j).activate();
+            }
+        }
+    }
+
     public int answer() {
+        fireNeurons();
         double sum = 0.0;
         for (int i = 0; i < levelsList.get(levelsList.size() - 1).size(); i++) {
             sum = sum + levelsList.get(levelsList.size() - 1).get(i).output();
         }
         sum = sum / levelsList.get(levelsList.size() - 1).size();
+        System.out.println(sum);
         if (sum >= 0.5) {
             return 1;
         } else {

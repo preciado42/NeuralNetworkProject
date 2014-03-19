@@ -47,11 +47,16 @@ public class Neuron {
     }
 
     public void initalizeWeights() {
-        for (int i = 0; i < inputs.size(); i++) {
+        for (int i = 0; i < inputNeurons.size(); i++) {
             weights.add(Math.random());
             //weightDiff initially 0.
             weightDiff.add(0.0);
         }
+    }
+
+    public void clearInputs()
+    {
+        inputs = new ArrayList<Double>();
     }
 
     public void setWeightDiff(int pos, double diff) {
@@ -125,7 +130,6 @@ public class Neuron {
 
     //should only be called to get the answer from output neurons
     public double output() {
-        activate();
         return output;
     }
 
@@ -138,7 +142,6 @@ public class Neuron {
             bldr.append("\n");
         }
         bldr.append("Output:\n");
-        activate();
         bldr.append(output);
         bldr.append("\n");
         return bldr.toString();
