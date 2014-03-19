@@ -47,7 +47,7 @@ public class Neuron {
     }
 
     public void initalizeWeights() {
-        for (int i = 0; i < inputNeurons.size(); i++) {
+        for (int i = 0; i < inputs.size(); i++) {
             weights.add(Math.random());
             //weightDiff initially 0.
             weightDiff.add(0.0);
