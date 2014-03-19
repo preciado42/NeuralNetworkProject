@@ -13,8 +13,8 @@ import java.util.ArrayList;
  */
 public class Neuron {
 
-    private ArrayList<Neuron> outputNeurons;
-    private ArrayList<Integer> inputs;
+    private ArrayList<Neuron> inputNeurons;
+    private ArrayList<Double> inputs;
     private ArrayList<Double> weights;
     private ArrayList<Double> weightDiff;
     private int output;
@@ -24,14 +24,14 @@ public class Neuron {
     private double threshold;
 
     public Neuron() {
-        outputNeurons = new ArrayList<Neuron>();
-        inputs = new ArrayList<Integer>();
+        inputNeurons = new ArrayList<Neuron>();
+        inputs = new ArrayList<Double>();
         weights = new ArrayList<Double>();
         weightDiff = new ArrayList<Double>();
     }
 
-    public void populateOutput(Neuron neuron) {
-        outputNeurons.add(neuron);
+    public void populateInput(Neuron neuron) {
+        inputNeurons.add(neuron);
     }
 
     public double getThreshold() {
@@ -47,8 +47,10 @@ public class Neuron {
     }
 
     public void initalizeWeights() {
-        for (int i = 0; i < inputs.size(); i++) {
+        for (int i = 0; i < inputNeurons.size(); i++) {
             weights.add(Math.random());
+            //weightDiff initially 0.
+            weightDiff.add(0.0);
         }
     }
 
@@ -76,7 +78,7 @@ public class Neuron {
         signalError = sig;
     }
 
-    public boolean insertInput(Integer input) {
+    public boolean insertInput(Double input) {
         return inputs.add(input);
     }
 
@@ -84,12 +86,13 @@ public class Neuron {
         bias = dub;
     }
 
-    public boolean pushOut() {
+    public boolean pullInOutputs() {
         boolean allTrue = true;
 
-        for (Neuron neuron : outputNeurons) {
-            if (!neuron.insertInput(output)) {
-                allTrue = false;
+        for (Neuron neuron : inputNeurons) {
+            if(!inputs.add(neuron.output()))
+            {
+                return false;
             }
         }
         return allTrue;
@@ -117,7 +120,7 @@ public class Neuron {
         } else {
             output = 0;
         }
-        pushOut();
+        pullInOutputs();
     }
 
     //should only be called to get the answer from output neurons

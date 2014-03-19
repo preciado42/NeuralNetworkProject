@@ -42,7 +42,7 @@ public class Network {
         //populate input neurons with new inputs.
         for (int j = 0; j < levelsList.get(0).size(); j++) {
             for (int i = 0; i < inputs.size(); i++) {
-                levelsList.get(0).get(j).insertInput(inputs.get(i));
+                levelsList.get(0).get(j).insertInput(inputs.get(i) + 0.0); //hack this to double...
             }
         }
     }
@@ -54,8 +54,8 @@ public class Network {
         }
 
         //Calculate error for each hidden layer node
-        for (int i = levelsList.size() - 2; i > 0; i--) {
-            for (int j = 0; j < levelsList.get(i).size(); j++) {
+        for (int i = levelsList.size() - 2; i > 0; i--) {//layer
+            for (int j = 0; j < levelsList.get(i).size(); j++) {//node
                 double sum = 0.0;
 
                 for (int k = 0; k < levelsList.get(i + 1).size(); k++) {
@@ -91,7 +91,6 @@ public class Network {
                     current.setWeight(k, current.getWeight(k) + current.getWeightDiff(k));
                 }
             }
-
         }
     }
 
@@ -109,26 +108,37 @@ public class Network {
             levelsList.get(levelsList.size() - 1).add(new Neuron());
         }
 
-        //assign weights to output neurons for input neurons
-        for (int j = 0; j < levelsList.get(0).size(); j++) {
-            for (int i = 0; i < levelsList.get(1).size(); i++) {
-                levelsList.get(0).get(j).populateOutput(levelsList.get(1).get(i));
-                levelsList.get(0).get(j).initalizeWeights();
-            }
-        }
-
+        //assign weights
         //populate hidden layer neurons
         for (int i = 1; i < hiddenLayers + 1; i++) {
             for (int j = 0; j < hiddenNeurons; j++) {
-                for (int k = 0; k < levelsList.get(i + 1).size(); k++) {
-                    levelsList.get(i).get(j).populateOutput(levelsList.get(i + 1).get(k));
+                for (int k = 0; k < levelsList.get(i - 1).size(); k++) {
+                    levelsList.get(i).get(j).populateInput(levelsList.get(i - 1).get(k));
                 }
-                levelsList.get(i).get(j).initalizeWeights();
+            }
+        }
+
+        for (int i = 1; i < hiddenLayers + 1; i++) {
+            for (int j = 0; j < hiddenNeurons; j++) {
+                    levelsList.get(i).get(j).initalizeWeights();
+            }
+        }
+
+        //populate output neurons input list
+        for(int i = 0; i < outputNeurons; i++)//number of hidden neurons in layer below output.
+        {
+            for(int j = 0; j < levelsList.get(levelsList.size()-2).size(); j++)//number of output neurons
+            {
+                Neuron current = levelsList.get(levelsList.size()-1).get(i);
+                current.populateInput(levelsList.get(levelsList.size()-2).get(j));
             }
         }
 
         //populate output layer neurons
-        //nothing to do really, the neurons exist but won't have weights for anything.
+        for(int i = 0; i < outputNeurons; i++)
+        {
+            levelsList.get(levelsList.size()-1).get(i).initalizeWeights();
+        }
 
     }
 
