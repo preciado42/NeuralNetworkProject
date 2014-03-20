@@ -23,8 +23,8 @@ public class Network {
         this.hiddenLayers = hiddenLayers;
         this.outputNeurons = outputNeurons;
         this.hiddenNeurons = hiddenNeurons;
-        this.learningRate = 0.25;
-        this.momentum = 0.02;
+        this.learningRate = 1.0;
+        this.momentum = 1.0;
         //noinspection unchecked,unchecked
         levelsList = new ArrayList();
         for (int i = 0; i < hiddenLayers + 2; i++) {
@@ -96,8 +96,8 @@ public class Network {
                     Neuron guyBefore = levelsList.get(i - 1).get(k);
 
                     //calculate weight different from j to k
-                    current.setWeightDiff(k, learningRate * (current.getError() * guyBefore.output() +
-                            momentum * current.getWeightDiff(k)));
+                    current.setWeightDiff(k, learningRate * current.getError() * guyBefore.output() +
+                            momentum * current.getWeightDiff(k));
 
                     //update weight from j to k
                     current.setWeight(k, current.getWeight(k) + current.getWeightDiff(k));

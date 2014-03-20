@@ -17,7 +17,7 @@ public class Neuron {
     private ArrayList<Double> inputs;
     private ArrayList<Double> weights;
     private ArrayList<Double> weightDiff;
-    private int output;
+    private double output;
     private double bias;
     private double signalError;
     private double thresholdDiff;
@@ -113,19 +113,22 @@ public class Neuron {
 
     public void activate() {
         //implement activation function here, could be many different kinds
+        pullInOutputs();
         double sum = 0.0;
         double temp;
         for (int i = 0; i < inputs.size(); i++) {
             sum = sum + inputs.get(i);
         }
+        //System.out.println("sum = "+sum);
         sum = sum + bias;
         temp = (1.0 / (1.0 + Math.pow(Math.E, sum)));
-        if (temp >= .5) {
-            output = 1;
-        } else {
-            output = 0;
-        }
-        pullInOutputs();
+        //System.out.println("temp = "+temp);
+//        if (temp >= .5) {
+//            output = 1;
+//        } else {
+//            output = 0;
+//        }
+        output = temp;
     }
 
     //should only be called to get the answer from output neurons

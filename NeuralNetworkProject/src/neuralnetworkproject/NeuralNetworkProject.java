@@ -104,10 +104,11 @@ public class NeuralNetworkProject {
     public void trainNetworkSquare(){
         
         //begin training of network
-        int sessions = 150; //number of training sessions to run
+        int sessions = 1; //number of training sessions to run
         this.network = this.setUpNetwork(); //set up layers, random weights, etc
-        this.testPairLoad("NeuralNetworkProject\\src\\training\\simpleSquare");  //load up all test cases, we know which pngs in this list are not squares
+        this.testPairLoad("src\\training\\simpleSquare");  //load up all test cases, we know which pngs in this list are not squares
         for (int i = 0; i < sessions; i++) {
+            System.out.println("Training Session Number: "+i);
             //test against a set number of pngs that ARENT squares
             for (int j = 0; j < this.testPairs.size(); j++) {
                 this.network.feed(this.testPairs.get(j).getDataArrayList(), this.testPairs.get(j).getAnswer());
@@ -135,5 +136,8 @@ public class NeuralNetworkProject {
         return new Network(1,2,1,3);
     }
     
+    private void printWeights(){
+        
+    }
     
 }
