@@ -23,7 +23,7 @@ public class Network {
         this.hiddenLayers = hiddenLayers;
         this.outputNeurons = outputNeurons;
         this.hiddenNeurons = hiddenNeurons;
-        this.learningRate = 1.0;
+        this.learningRate = 0.5;
         this.momentum = 1.0;
         //noinspection unchecked,unchecked
         levelsList = new ArrayList();
@@ -41,10 +41,8 @@ public class Network {
         }
         cleanNeurons();
         //populate input neurons with new inputs.
-        for (int j = 0; j < levelsList.get(0).size(); j++) {
-            for (int i = 0; i < inputs.size(); i++) {
-                levelsList.get(0).get(j).insertInput(inputs.get(i) + 0.0); //hack this to double...
-            }
+        for (int j = 0; j < levelsList.get(0).size(); j++) {           
+                levelsList.get(0).get(j).setOutput(inputs.get(j) + 0.0); //hack this to double...
         }
     }
 
@@ -61,7 +59,7 @@ public class Network {
 
     public void calculateError() {
         //Calculate error for each output node
-        for (int i = 0; i < levelsList.get(levelsList.size() - 1).size(); i++) {
+        for (int i = 0; i < levelsList.get(levelsList.size() - 1).size(); i++) {          
             levelsList.get(levelsList.size() - 1).get(i).calculateSignalError(expectedOutput);
         }
 
@@ -70,7 +68,7 @@ public class Network {
             for (int j = 0; j < levelsList.get(i).size(); j++) {//node
                 double sum = 0.0;
 
-                for (int k = 0; k < levelsList.get(i + 1).size(); k++) {
+                for (int k = 0; k < levelsList.get(i + 1).size(); k++) { // each node in the above layer
                     sum = sum + levelsList.get(i + 1).get(k).getWeight(j) * levelsList.get(i + 1).get(k).getError();
                 }
 
@@ -120,7 +118,7 @@ public class Network {
             levelsList.get(levelsList.size() - 1).add(new Neuron());
         }
 
-        //assign weights
+        
         //populate hidden layer neurons
         for (int i = 1; i < hiddenLayers + 1; i++) {
             for (int j = 0; j < hiddenNeurons; j++) {
@@ -129,7 +127,10 @@ public class Network {
                 }
             }
         }
-
+        //assign weights
+        for (int i = 0; i < inputNeurons; i++){
+            levelsList.get(0).get(i).initalizeWeights();
+        }
         for (int i = 1; i < hiddenLayers + 1; i++) {
             for (int j = 0; j < hiddenNeurons; j++) {
                     levelsList.get(i).get(j).initalizeWeights();
@@ -156,7 +157,7 @@ public class Network {
 
     public void fireNeurons()
     {
-        for(int i = 0; i < levelsList.size(); i++)
+        for(int i = 1; i < levelsList.size(); i++)
         {
             for(int j = 0; j < levelsList.get(i).size(); j++)
             {
