@@ -104,9 +104,9 @@ public class NeuralNetworkProject {
     public void trainNetworkSquare(){
         
         //begin training of network
-        int sessions = 1; //number of training sessions to run
+        int sessions = 1000; //number of training sessions to run
         this.network = this.setUpNetwork(); //set up layers, random weights, etc
-        this.testPairLoad("src\\training\\simpleSquare");  //load up all test cases, we know which pngs in this list are not squares
+        this.testPairLoad("C:\\Users\\Alex\\Documents\\NetBeansProjects\\NeuralNetworkProject\\NeuralNetwork\\build\\classes\\training\\simpleSquare");  //load up all test cases, we know which pngs in this list are not squares
         for (int i = 0; i < sessions; i++) {
             System.out.println("Training Session Number: "+i);
             //test against a set number of pngs that ARENT squares
@@ -114,13 +114,14 @@ public class NeuralNetworkProject {
                 this.network.feed(this.testPairs.get(j).getDataArrayList(), this.testPairs.get(j).getAnswer());
                 //check if network got the right answer
                 int ans = network.answer();
-                if(ans == 1 && !this.testPairs.get(j).getAnswer()){
+                boolean testAns = this.testPairs.get(j).getAnswer();
+                if(ans == 1 && !testAns){
                     //network guessed true, answer is false
                     System.out.println("Network answered " + ans);
                     System.out.println("Correct answer was " + this.testPairs.get(j).getAnswer() + "\n");
                     this.network.calculateError();
                     this.network.backProp();
-                } else if(ans == 0 && this.testPairs.get(j).getAnswer()){
+                } else if(ans == 0 && testAns){
                     //network guessed false, answer is true
                     System.out.println("Network answered " + ans);
                     System.out.println("Correct answer was " + this.testPairs.get(j).getAnswer() + "\n");
@@ -133,7 +134,7 @@ public class NeuralNetworkProject {
 
     private Network setUpNetwork() {
         System.out.println("Network is Set up");
-        return new Network(1,2,1,3);
+        return new Network(64,2,1,3);
     }
     
     private void printWeights(){

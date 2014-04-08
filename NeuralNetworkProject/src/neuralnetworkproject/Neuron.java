@@ -53,6 +53,9 @@ public class Neuron {
             weightDiff.add(0.0);
         }
     }
+    public void setOutput(double out){
+        output = out;
+    }
 
     public void clearInputs()
     {
@@ -117,7 +120,7 @@ public class Neuron {
         double sum = 0.0;
         double temp;
         for (int i = 0; i < inputs.size(); i++) {
-            sum = sum + inputs.get(i);
+            sum = sum + inputs.get(i) * weights.get(i);
         }
         //System.out.println("sum = "+sum);
         sum = sum + bias;
@@ -127,7 +130,7 @@ public class Neuron {
 //            output = 1;
 //        } else {
 //            output = 0;
-//        }
+//       }
         output = temp;
     }
 

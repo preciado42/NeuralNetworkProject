@@ -62,7 +62,7 @@ public class ImageLoader extends PApplet {
         ArrayList<TestPair> testData = new ArrayList<TestPair>();
         File dataDir = new File(path);
         File[] list = dataDir.listFiles();
-        for (int i = 0; i < list.length; i++) {
+        for (int i = 0; i < list.length-1; i++) {
             //load imge
             img = loadImage(list[i].getAbsolutePath());
             ImageProcessor ip = new ImageProcessor(img);
