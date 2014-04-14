@@ -49,4 +49,11 @@ public class TestPair {
         }
         return dat;
     }
+    
+    public int getAnswerNumber(){
+        if(answer){
+            return 1;
+        }
+        return 0;
+    }
 }
